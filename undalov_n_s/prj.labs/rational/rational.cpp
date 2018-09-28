@@ -74,6 +74,7 @@
 
 		if (a == Rational::del)
 		{
+			Reduction(num,den);
 			numerator = num;
 			denominator = den;
 		}
@@ -83,11 +84,4 @@
 		}
 		return istrm;
 	}
-	inline std::ostream& operator<<(std::ostream& ostrm, const Rational& r)
-	{
-		return r.writeTo(ostrm);
-	}
-	inline std::istream& operator>>(std::istream& istrm, Rational& r)
-	{
-		return r.readFrom(istrm); //доделать сокращение
-	}
+	
