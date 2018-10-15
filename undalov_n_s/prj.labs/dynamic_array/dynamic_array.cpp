@@ -34,7 +34,7 @@ int Dynamic_array::GetSize() const
 
 double& Dynamic_array::operator[](int index) const
 {
-	if ((index < 0) || (index > _size)) throw std::invalid_argument("Uncorrect index");
+	if ((index < 0) || (index >= _size)) throw std::invalid_argument("Uncorrect index");
 	return _arr[index];
 };
 
