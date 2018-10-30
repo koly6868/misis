@@ -1,8 +1,10 @@
 #include <iostream>
+#include <stdexcept>
 
 #include "matrix.h"
 
 bool MatrixTest();
+void WriteMatrix(Matrix& matr);
 
 int main()
 {
@@ -19,67 +21,57 @@ bool MatrixTest()
 	Matrix matr3(matr2);
 	
 	cout << "use constructors" << endl;
-	// empty constr
+	cout << "empty constr:" << endl;
 	cout << "arr1 sizes: [" << matr1.GetCountRows() << "," << matr1.GetCountColums() << "] elements: " << endl;
-	for (int i = 0; i < matr1.GetCountRows(); i++)
-	{
-		for (int j = 0; j < matr1.GetCountColums(); i++)
-		{
-		cout << matr1.GetElement(i,j)  << " ";
-		}
-		cout << endl;
-	}
+	WriteMatrix(matr1);
 	cout << endl;
-
-	//constr trough sizes
+	cout << "constr trough sizes:" << endl;
 	cout << "arr2 sizes: [" << matr2.GetCountRows() << "," << matr2.GetCountColums() << "] elements: " << endl;
-	for (int i = 0; i < matr2.GetCountRows(); i++)
-	{
-		for (int j = 0; j < matr2.GetCountColums(); j++)
-		{	
-			cout << matr2.GetElement(i, j) << " ";
-		}
-		cout << endl;
-	}
+	WriteMatrix(matr2);
 	cout << endl;
 
-	//copy constructor
+	cout << "copy constructor:" << endl;
 	cout << "arr3 sizes: [" << matr3.GetCountRows() << "," << matr3.GetCountColums() << "] elements: " << endl;
-	for (int i = 0; i < matr3.GetCountRows(); i++)
-	{
-		for (int j = 0; j < matr3.GetCountColums(); j++)
-		{
-			cout << matr3.GetElement(i, j) << " ";
-		}
-		cout << endl;
-	}
+	WriteMatrix(matr3);
+
 	cout << endl;
 
-	//write value to matrix
+	cout << "write value to matrix" << endl;
 	matr3.GetElement(1,1) = 10;
-	Matrix matr4(matr3);
 
 	cout << "arr3 sizes: [" << matr3.GetCountRows() << "," << matr3.GetCountColums() << "] elements: " << endl;
-	for (int i = 0; i < matr3.GetCountRows(); i++)
-	{
-		for (int j = 0; j < matr3.GetCountColums(); j++)
-		{
-			cout << matr3.GetElement(i, j) << " ";
-		}
-		cout << endl;
-	}
+	WriteMatrix(matr3);
 	cout << endl;
 
-	cout << "arr4 sizes: [" << matr4.GetCountRows() << "," << matr4.GetCountColums() << "] elements: " << endl;
-		for (int i = 0; i < matr4.GetCountRows(); i++)
-		{
-			for (int j = 0; j < matr4.GetCountColums(); j++)
-			{
-				cout << matr4.GetElement(i, j) << " ";
-			}
-			cout << endl;
-		}
+	cout << "get elemet [1,1] by last matrix" << endl;
+	cout << matr3.GetElement(1,1) << endl;
+	
+	cout << "uncorrect([2,2]) get element by last matrix" << endl;
+	int el(0);
+	try
+	{
+		el =matr3.GetElement(2,2);
+		cout << el << endl;
+	}
+	catch(exception e){
+		cout << e.what();
+	}
+	
+
 	cout << endl;
 
 	return true;
+}
+
+void WriteMatrix(Matrix& matr)
+{
+using namespace std;
+	for (int i = 0; i < matr.GetCountRows(); i++)
+	{
+		for (int j = 0; j < matr.GetCountColums(); j++)
+		{
+			cout << matr.GetElement(i, j) << " ";
+		}
+		cout << endl;
+	}
 }

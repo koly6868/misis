@@ -1,4 +1,4 @@
-#include "Complex.h"
+#include "complex.h"
 
 
 bool Complex::operator==(const Complex& rhs) const
@@ -40,10 +40,38 @@ Complex& Complex::operator*=(const double rhs)
 	return *this;
 }
 
+Complex Complex::operator+(const Complex & rhs)
+{
+	return Complex(re + rhs.re, im + rhs.im);
+}
+
+Complex Complex::operator-(const Complex & rhs)
+{
+	return Complex(re - rhs.re, im - rhs.im);
+}
+
+Complex Complex::operator*(const Complex & rhs)
+{
+	return Complex(re * rhs.re - im * rhs.im, re * rhs.im + im * rhs.re);
+}
+
+Complex Complex::operator/(const Complex & rhs)
+{
+	return Complex((re*rhs.re + im * rhs.im) / (rhs.re*rhs.re + rhs.im*rhs.im),
+		(rhs.re *im - re * rhs.im) / (rhs.re*rhs.re + rhs.im*rhs.im));
+}
+
 Complex& Complex::operator*=(const Complex& rhs)
 {
-	re = re*rhs.re -im*rhs.im;
-	im = re*rhs.im + im*rhs.re;
+	re = re * rhs.re - im * rhs.im;
+	im = re * rhs.im + im * rhs.re;
+	return *this;
+}
+Complex & Complex::operator/=(const Complex & rhs)
+{
+    double oldRe = re;
+	re = (re*rhs.re + im * rhs.im) / (rhs.re*rhs.re + rhs.im*rhs.im);
+	im = (rhs.re *im - oldRe * rhs.im) / (rhs.re*rhs.re + rhs.im*rhs.im);
 	return *this;
 }
 std::ostream& Complex::writeTo(std::ostream& ostrm) const
@@ -73,13 +101,4 @@ std::istream& Complex::readFrom(std::istream& istrm)
 		}
 	}
 	return istrm;
-}
-
-Complex operator+(const Complex& lhs, const Complex& rhs)
-{
-	return Complex(lhs.re + rhs.re, lhs.im + rhs.im);
-}
-Complex operator-(const Complex& lhs, const Complex& rhs)
-{
-	return Complex(lhs.re - rhs.re, lhs.im - rhs.im);
 }

@@ -3,6 +3,7 @@
 #include "dynamic_array.h"
 
 bool Test_Dynamic_array();
+void WriteArray(Dynamic_array& arr);
 
 int main()
 {
@@ -21,18 +22,12 @@ bool Test_Dynamic_array()
 	cout << "use constructors" << endl;
 	// empty constr
 	cout << "arr1 size: " << arr1.GetSize() << " elements: ";
-	for (int i = 0; i < arr1.GetSize(); i++)
-	{
-		cout << arr1[i] << " ";
-	}
+	WriteArray(arr1);
 	cout << endl;
 
 	//constr trough size
 	cout << "arr2 size: " << arr2.GetSize() << " elements: ";
-	for (int i = 0; i < arr2.GetSize(); i++)
-	{
-		cout << arr2[i] << " ";
-	}
+	WriteArray(arr2);
 	cout << endl;
 
 	//copy constr
@@ -61,6 +56,15 @@ bool Test_Dynamic_array()
 	cout << endl;
 
 	return true;
+}
+
+void WriteArray(Dynamic_array& arr)
+{
+	using namespace std;
+	for (int i = 0; i < arr.GetSize(); i++)
+	{
+		cout << arr[i] << " ";
+	}
 }
 
 

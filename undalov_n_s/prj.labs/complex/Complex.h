@@ -1,3 +1,6 @@
+#ifndef Complex_2018
+#define Complex_2018
+
 #include <sstream>
 
 struct Complex
@@ -13,10 +16,17 @@ public:
 	Complex& operator-=(const Complex& rhs);
 	Complex& operator-=(const double rhs);
 	Complex& operator*=(const Complex& rhs);
+	Complex& operator/=(const Complex& rhs);
 	Complex& operator*=(const double rhs);
+	Complex operator+(const Complex& rhs);
+	Complex operator-(const Complex& rhs);
+	Complex operator*(const Complex& rhs);
+	Complex operator/(const Complex& rhs);
 	std::ostream& writeTo(std::ostream& ostrm) const;
 	std::istream& readFrom(std::istream& istrm);
 	
+
+private:
 	double re{ 0.0 };
 	double im{ 0.0 };
 
@@ -24,11 +34,14 @@ public:
 	static const char separator{ ',' };
 	static const char rightBrace{ '}' };
 };
+
 inline std::ostream& operator<<(std::ostream& ostrm, const Complex& rhs)
 {
 	return rhs.writeTo(ostrm);
 }
+
 inline std::istream& operator>>(std::istream& istrm, Complex& rhs)
 {
 	return rhs.readFrom(istrm);
 }
+#endif // Complex_2018
