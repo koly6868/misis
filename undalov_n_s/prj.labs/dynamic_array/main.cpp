@@ -58,6 +58,13 @@ bool Test_Dynamic_array()
   cout << "call GetSize() by arr3" << endl;
   cout << arr3.GetSize() << endl;
 
+  cout << "Dynamic_array asd = Dynamic_array(2)" << endl;
+  Dynamic_array asd = Dynamic_array(2);
+  WriteArray(asd);
+
+  cout << "call asd.resize(1)" << endl;
+  asd.Resize(1);
+  WriteArray(asd);
 	return true;
 }
 

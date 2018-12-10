@@ -15,27 +15,28 @@ class Stack
     {
       data_ = node->data_;
       nextNode_ = node->nextNode_;
-    }
+    };
     Node<T>* nextNode_{ nullptr };
     T data_;
   };
+
 public:
   Stack() = default;
   Stack(const Stack<T>& obj);
-  Stack<T>& operator=(const Stack<T>& obj); 
+  Stack<T>& operator=(const Stack<T>& obj);
   T& pop();
   void push(const T& data);
+
 private:
-  Node<T>* head_{ nullptr };
-  Node<T>* last_{ nullptr };
+  Node<T>* head__{ nullptr };
 };
 
 template<typename T>
 inline T& Stack<T>::pop()
 {
-  if (head_ == nullptr) throw std::out_of_range("empty");
-  T res = last_->data_;
-  last_ = last_->nextNode_;
+  if (head__ == nullptr) throw std::out_of_range("empty");
+  T res = head__->data_;
+  head__ = head__->nextNode_;
   return res;
 }
 
@@ -44,17 +45,8 @@ inline void Stack<T>::push(const T & data)
 {
   Node<T>* newNode = new Node<T>();
   newNode->data_ = data;
-  if (head_ == nullptr)
-  {
-    head_ = newNode;
-    last_ = head_;
-  }
-  else
-  {
-    Node<T>* p = last_;
-    last_ = newNode;
-    last_->nextNode_ = p;
-  }
+  newNode->nextNode_ = head__;
+  head__ = newNode;
 }
 
 
@@ -62,27 +54,25 @@ inline void Stack<T>::push(const T & data)
 template<typename T>
 Stack<T>::Stack(const Stack<T>& obj) : Stack<T>()
 {
-  head_ = new Node<T>(obj.head_);
-  last_ = new Node<T>(obj.last_);
-  if (obj.head_ != obj.last_) last_->nextNode_ = head_;
-  if (!((head_ == last_) || (last_->nextNode_ == head_)))
+  head__ = new Node<T>(obj.head__);
+  Node<T>* current_this = head__;
+  Node<T>* current_copy = obj.head__->nextNode_;
+  while (current_copy != nullptr)
   {
-    Node<T>* current_copy = head_->nextNode_;
-    Node<T>* current_this = last_;
-    while (current_copy->nextNode_ != nullptr)
-    {
-      current_this->nextNode_ = new Node<T>(current_copy);
-      current_this = current_this->nextNode_;
-      current_copy = current_copy->nextNode_;
-    }
+    current_this->nextNode_ = new Node<T>(current_copy);
+    current_this = current_this->nextNode_;
+    current_copy = current_copy->nextNode_;
   }
 };
 
 template<typename T>
 Stack<T>& Stack<T>::operator=(const Stack<T>& obj)
 {
-  this = new Stack(obj);
+  if (this != &obj)
+    *this = Stack(obj);
   return *this;
 }
 #endif // !Stack_2018
+
+
 

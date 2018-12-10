@@ -9,7 +9,9 @@ public:
 	Dynamic_array(const Dynamic_array& arr);
 	~Dynamic_array();
 	double& operator[](int index) const;
+  Dynamic_array& operator=(const Dynamic_array& arr);
 	int GetSize() const;
+  void Resize(const int size);
 
 private:
 	double* arr_{nullptr};

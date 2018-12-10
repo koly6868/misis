@@ -40,4 +40,33 @@ double& Dynamic_array::operator[](int index) const
 	return arr_[index];
 };
 
+Dynamic_array& Dynamic_array::operator=(const Dynamic_array& arr)
+{
+  *this = Dynamic_array(arr);
+  return *this;
+};
+
+void Dynamic_array::Resize(const int size)
+{
+  if (size < 0) throw std::invalid_argument("Invalid argument");
+  double* arr = new double[size];
+  if (size <= size_)
+  {
+    for (int i = 0; i < size; i++)
+    {
+      arr[i] = arr_[i];
+    }
+  }
+  else
+  {
+    for (int i = 0; i < size_; i++)
+    {
+      arr[i] = arr_[i];
+    }
+  }
+  delete arr_;
+  arr_ = arr;
+  size_ = size;
+}
+
 
