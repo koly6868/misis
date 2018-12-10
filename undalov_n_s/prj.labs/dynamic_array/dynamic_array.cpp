@@ -3,39 +3,41 @@
 #include "dynamic_array.h"
 
 Dynamic_array::Dynamic_array(const int size) 
-	: _arr(new double[size])
-	, _size(size)
+
 {
-	for (int i =0; i < _size; i++)
-		_arr[i] = 0;
+  if (size < 0) throw std::invalid_argument("size must be positive");
+  size_ = size;
+  arr_ = new double[size_];
+	for (int i =0; i < size_; i++)
+		arr_[i] = 0;
 };
 
 Dynamic_array::~Dynamic_array()
 {
-	delete[] _arr;
-	_arr = nullptr;
-	_size = 0;
+	delete[] arr_;
+	arr_ = nullptr;
+	size_ = 0;
 };
 
 Dynamic_array::Dynamic_array(const Dynamic_array& arr)
-	: Dynamic_array(arr._size)
+	: Dynamic_array(arr.size_)
 {
-	for (int i = 0; i < _size; i++)
+	for (int i = 0; i < size_; i++)
 	{
-		_arr[i] = arr[i];
+		arr_[i] = arr[i];
 	}
 };
 
 int Dynamic_array::GetSize() const
 {
-	return _size;
+	return size_;
 };
 
 
 double& Dynamic_array::operator[](int index) const
 {
-	if ((index < 0) || (index >= _size)) throw std::invalid_argument("Uncorrect index");
-	return _arr[index];
+	if ((index < 0) || (index >= size_)) throw std::invalid_argument("Uncorrect index");
+	return arr_[index];
 };
 
 

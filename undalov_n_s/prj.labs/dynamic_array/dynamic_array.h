@@ -10,9 +10,10 @@ public:
 	~Dynamic_array();
 	double& operator[](int index) const;
 	int GetSize() const;
+
 private:
-	double* _arr{nullptr};
-	int _size{0};
+	double* arr_{nullptr};
+	int size_{0};
 };
 
 

@@ -19,18 +19,18 @@ bool Test_Dynamic_array()
 	Dynamic_array arr3(arr2);
 
 
-	cout << "use constructors" << endl;
-	// empty constr
+	cout << "TEST CONSTRUCTORS" << endl;
+  cout << "Dynamic_array()" << endl;
 	cout << "arr1 size: " << arr1.GetSize() << " elements: ";
 	WriteArray(arr1);
 	cout << endl;
 
-	//constr trough size
+  cout << "Dynamic_array(3)" << endl;
 	cout << "arr2 size: " << arr2.GetSize() << " elements: ";
 	WriteArray(arr2);
 	cout << endl;
 
-	//copy constr
+  cout << "Dynamic_array(Dynamic_array)" << endl;
 	cout << "arr3 size: " << arr3.GetSize() << " elements: ";
 	for (int i = 0; i < arr2.GetSize(); i++)
 	{
@@ -54,6 +54,9 @@ bool Test_Dynamic_array()
 		cout << arr4[i] << " ";
 	}
 	cout << endl;
+
+  cout << "call GetSize() by arr3" << endl;
+  cout << arr3.GetSize() << endl;
 
 	return true;
 }
