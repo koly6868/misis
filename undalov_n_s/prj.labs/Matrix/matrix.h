@@ -1,7 +1,5 @@
-#ifndef Matrix_2018
-#define Matrix_2018
-
-
+#ifndef MY_MATRIX_2018
+#define MY_MATRIX_2018
 
 class Matrix
 {
@@ -27,4 +25,4 @@ private:
 
 Matrix operator+(const Matrix& matr1, const Matrix& matr2);
 Matrix operator-(const Matrix& matr1, const Matrix& matr2);
-#endif
+#endif //MY_MATRIX_2018

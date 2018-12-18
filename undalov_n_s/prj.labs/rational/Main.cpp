@@ -66,6 +66,12 @@ int main()
   cout << "2/4 *= 3/5 == " << (Rational(2, 4) *= Rational(3, 5)) << endl;
   cout << "2/4 /= 3/5 == " << (Rational(2, 4) /= Rational(3, 5)) << endl;
   cout << "2/4 = 3/5 = 2/7 ==" << (Rational(2,4) = Rational(3,5) = Rational(2,7)) << endl;
+
+  cout << endl << endl;
+  Rational lhs(1,1);
+  Rational rhs(2,3);
+  cout << "test "<< lhs << " = " << rhs << endl;
+  cout << (lhs = rhs) << endl;
 	
 }
 

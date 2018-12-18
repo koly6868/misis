@@ -1,5 +1,5 @@
-add_executable(stack_on_list 
+add_executable(queue
 	main.cpp 
-	stack.h 
-	stack.cpp)
+	queue.h 
+	queue.cpp)
 set_property(TARGET complex PROPERTY CXX_STANDARD 14)

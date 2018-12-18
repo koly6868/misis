@@ -1,5 +1,5 @@
-#ifndef dynamic_array_2018
-#define dynamic_array_2018
+#ifndef DYNAMIC_ARRAY_2018
+#define DYNAMIC_ARRAY_2018
 
 class Dynamic_array
 {
@@ -20,4 +20,4 @@ private:
 
 
 
-#endif dynamic_array_2018
+#endif //DYNAMIC_ARRAY_2018
