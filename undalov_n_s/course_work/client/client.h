@@ -4,29 +4,30 @@
 #include <QTcpSocket>
 #include <QtCore>
 #include <QHostAddress>
-
+#include "file_systeam.h"
 
 class Client : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    Client(QObject *parent = nullptr, quint16 port = 6001);
-    Client(QObject *parent, QTcpSocket* socket);
-    Client(QObject *parent, quint16 port, QHostAddress adr);
-    ~Client();
-    bool ConnectToHost(QHostAddress adr, quint16 port);
-    void sendMessage(QByteArray str);
+  Client(QObject *parent = nullptr, quint16 port = 6001);
+  Client(QObject *parent, QTcpSocket* socket);
+  Client(QObject *parent, quint16 port, QHostAddress adr);
+  ~Client();
+  bool ConnectToHost(QHostAddress adr, quint16 port);
+  void sendMessage(QByteArray str);
 
-public slots:
-    void onConnectionError();
-    void onReciveBytes();
-    void WaitForAvailableData();
+  public slots:
+  void onConnectionError();
+  void onReciveBytes();
 
-signals :
-    void whenRecivedBytes(QString str);
-
+signals:
+  void whenRecivedBytes(QByteArray str);
+public:
+  int message_part{ 0 };
+  uint part_file_size{ 4096 };
 private:
-    QTcpSocket* socket_{nullptr};
-    quint32 block_size_{0};
+  quint32 block_size_{ 0 };
+  QTcpSocket* socket_{ nullptr };
 };
 #endif // CLIENT_H

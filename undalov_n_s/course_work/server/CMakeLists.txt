@@ -10,7 +10,8 @@ set(server_SRCS
     console.h
     console.cpp
     file_systeam.h
-    file_systeam.cpp 
+    file_systeam.cpp
+    enums.h
 )
 
 add_executable(server ${server_SRCS})

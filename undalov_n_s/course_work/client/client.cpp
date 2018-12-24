@@ -16,23 +16,23 @@ Client::Client(QObject *parent, quint16 port)
 
 
 Client::Client(QObject* parent, QTcpSocket* socket)
-    : QObject (parent)
-    , block_size_(0)
+  : QObject(parent)
+  , block_size_(0)
 {
-    socket_ = socket;
+  socket_ = socket;
 }
 
 
 
 Client::Client(QObject* parent, quint16 port, QHostAddress adr)
-    : QObject(parent)
-    , block_size_(0)
+  : QObject(parent)
+  , block_size_(0)
 {
-    socket_ = new QTcpSocket(this);
-    socket_->bind(adr, port);
-    connect(socket_, SIGNAL(onConnectionError()), this, SLOT(onConnectionError()));
-    connect(socket_, SIGNAL(readyRead()), this, SLOT(onReciveBytes()));
-    qDebug() << block_size_;
+  socket_ = new QTcpSocket(this);
+  socket_->bind(adr, port);
+  connect(socket_, SIGNAL(onConnectionError()), this, SLOT(onConnectionError()));
+  connect(socket_, SIGNAL(readyRead()), this, SLOT(onReciveBytes()));
+  qDebug() << block_size_;
 }
 
 
@@ -53,9 +53,8 @@ void Client::sendMessage(QByteArray message)
   out << static_cast<quint32>(block.size() - sizeof(quint32));
 
   socket_->write(block);
-  //socket_->waitForBytesWritten(1000);
   qDebug() << "bytes was written" << block.size() << endl;
-};
+}
 
 
 
@@ -93,25 +92,18 @@ void Client::onReciveBytes()
       return;
     }
     in >> block_size_;
-    qDebug() << "block size: " << block_size_  << endl;
+    qDebug() << "block size: " << block_size_ << endl;
   }
   if (socket_->bytesAvailable() >= block_size_)
   {
     char* mes = new char[block_size_];
     in.readBytes(mes, block_size_);
-    QString res(mes);
-    qDebug() << res << endl;
-    emit whenRecivedBytes(res);
+    emit whenRecivedBytes(QByteArray(mes, block_size_));
     block_size_ = 0;
   }
+  if (socket_->bytesAvailable() > 0) onReciveBytes();
 }
 
-void Client::WaitForAvailableData()
-{
-  while (socket_->bytesAvailable())
-  {
-  }
-}
 
 
 

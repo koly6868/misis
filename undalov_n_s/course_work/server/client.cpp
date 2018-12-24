@@ -29,7 +29,7 @@ Client::Client(QObject* parent, QTcpSocket* socket)
 
 Client::~Client()
 {
-  qDebug() << "Client deleted " << socket_->isOpen() << "   "<< socket_->state() << endl;
+  qDebug() << "Client deleted " << socket_->isOpen() << "   " << socket_->state() << endl;
   socket_->close();
 };
 
@@ -45,7 +45,7 @@ void Client::sendMessage(QByteArray message)
   out << static_cast<quint32>(block.size() - sizeof(quint32));
 
   socket_->write(block);
-  //if (socket_->waitForBytesWritten(1000)) qDebug() << "Message is sended" << endl;
+  qDebug() << "bytes was written" << block.size() << endl;
 };
 
 
@@ -90,11 +90,11 @@ void Client::onReciveBytes()
   {
     char* mes = new char[block_size_];
     in.readBytes(mes, block_size_);
-    
-    emit whenRecivedBytes(QByteArray(mes,block_size_));
+
+    emit whenRecivedBytes(QByteArray(mes, block_size_));
     block_size_ = 0;
-    if (socket_->bytesAvailable() > 0) onReciveBytes();
   }
+  if (socket_->bytesAvailable() > 0) onReciveBytes();
 }
 
 

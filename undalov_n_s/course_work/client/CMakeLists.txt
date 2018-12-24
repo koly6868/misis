@@ -6,7 +6,14 @@ set(client_SRCS
 	client.h
 	client.cpp
 	console.h
-	console.cpp)
+	console.cpp
+	enums.h
+	file_systeam.h
+	file_systeam.cpp
+	client_controller.cpp
+	client_controller.h
+	interface.h
+	interface.cpp)
 
 add_executable(client ${client_SRCS})
 target_link_libraries(client Qt5::Widgets)

@@ -42,8 +42,8 @@ FileTcpServer* Configure(QObject* parent, const ConfigurationManager& configMana
     cout << "something went wrong" << endl;
     break;
   }
-
+  qDebug() << configManag.GetValue("storagePath");
   qDebug() << QHostAddress(adr) << endl;
-  return new FileTcpServer(parent, port, QHostAddress(adr));
+  return new FileTcpServer(parent, port, QHostAddress(adr), configManag.GetValue("storagePath"));
 }
 

@@ -5,14 +5,18 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include "file_systeam.h"
+#include <QDebug>
+#include <QCoreApplication>
 #include "client.h"
+#include "enums.h"
 
 class FileTcpServer : public QObject
 {
   Q_OBJECT
 public:
-  explicit FileTcpServer(QObject *parent = nullptr, quint16 port = 6000);
-  FileTcpServer(QObject *parent, quint16 port, QHostAddress adr);
+  explicit FileTcpServer(QObject *parent = nullptr, quint16 port = 6000, QString storagePath = ".\\");
+  FileTcpServer(QObject *parent, quint16 port, QHostAddress adr, QString storagePath);
   ~FileTcpServer();
   public slots:
   void slotNewConnection();
@@ -20,9 +24,9 @@ public:
   void slotClientDisconnected();
 
 private:
-  QFile* currentFile{nullptr};
   QTcpServer * mTcpServer;
   Client * client;
+  FileSysteam* fs_{};
 };
 
 #endif // !SERVER_2018

@@ -17,7 +17,7 @@ public:
 
 private:
   QDir dir_{ ".\\" };
-  QString path_{ ".\\" };
+  QString path_{".\\"};
   QFile* file{ nullptr };
 };
 
