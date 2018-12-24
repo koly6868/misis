@@ -19,7 +19,7 @@ public:
 
 private:
   int *data_{ nullptr };
-  int size_{ 1 };
+  int size_{ 2 };
   int head_{ 0 };
   int tail_{ 0 };
 };

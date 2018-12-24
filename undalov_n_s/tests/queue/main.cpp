@@ -1,5 +1,5 @@
-#include "queue.h"
 #include <iostream>
+#include "../../prj.labs/queue/queue.h"
 void Test()
 {
   using namespace std;

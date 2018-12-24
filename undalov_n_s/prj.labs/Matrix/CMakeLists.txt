@@ -1,5 +1,4 @@
-add_executable(Matrix
-	main.cpp 
+add_library(matrix
 	matrix.h 
 	matrix.cpp)
-set_property(TARGET Matrix PROPERTY CXX_STANDARD 14)
+set_property(TARGET matrix PROPERTY CXX_STANDARD 14)

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "complex.h"
+#include "../../prj.labs/complex/complex.h"
 
 bool testParse(const std::string& str) {
   using namespace std;

@@ -1,6 +1,5 @@
 #include <iostream>
-
-#include "dynamic_array.h"
+#include "../../prj.labs/dynamic_array/dynamic_array.h"
 
 bool Test_Dynamic_array();
 void WriteArray(Dynamic_array& arr);

@@ -12,3 +12,5 @@ include(cmake/build_prefix.cmake)
 
 
 add_subdirectory(prj.labs)
+add_subdirectory(tests)
+

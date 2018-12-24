@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "matrix.h"
+#include "../../prj.labs/matrix/matrix.h"
 
 bool MatrixTest();
 void WriteMatrix(Matrix& matr);

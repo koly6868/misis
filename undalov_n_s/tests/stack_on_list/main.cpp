@@ -1,5 +1,5 @@
-#include "stack.h"
 #include <iostream>
+#include "../../prj.labs/stack_on_list//stack.h"
 
 void Test()
 {
