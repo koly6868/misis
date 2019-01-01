@@ -6,44 +6,112 @@
 #include "console.h"
 
 FileTcpServer* Configure(QObject* parent, const ConfigurationManager& configManag, char tun);
+QString ReadIP();
+int ReadPositiveValue();
+
+
 
 int main(int argc, char *argv[])
 {
   using namespace std;
-  QCoreApplication a(argc, argv);
+  QCoreApplication app(argc, argv);
   ConfigurationManager configManag;
-  char tun;
-  cout << "use default settings? yes - y, no - n" << endl;
-  cin >> tun;
-
-  FileTcpServer* serv = Configure(&a, configManag, tun);
-
-  return a.exec();
-}
-
-FileTcpServer* Configure(QObject* parent, const ConfigurationManager& configManag, char tun)
-{
-  using namespace std;
-  QString adr;
+  QString input;
   quint16 port;
-  switch (tun)
+  QString ip;
+  FileTcpServer* server;
+
+  cout << "use default settings? yes, no" << endl;
+  while (true)
   {
-  case 'y':
-    port = configManag.GetValue("port").toInt();
-    adr = configManag.GetValue("ip");
-    break;
-  case 'n':
-    cout << "enter your adress" << endl;
-    cin >> adr;
-    cout << "enter port" << endl;
-    cin >> port;
-    break;
-  default:
-    cout << "something went wrong" << endl;
-    break;
+    cin >> input;
+    if (input == "yes")
+    {
+      QString config_name;
+      cout << "Enter name of configuration" << endl;
+      while (true)
+      {
+        cin >> config_name;
+        configManag = ConfigurationManager(config_name);
+        if (configManag.IsValid())
+        {
+          ip = configManag.GetValue("ip");
+          port = configManag.GetValue("port").toInt();
+          break;
+        }
+        else
+        {
+          cout << "unccorect name, try again (you may use \'default\' configuration)" << endl;
+        }
+      }
+      break;
+    }
+    if (input == "no")
+    {
+      cout << "enter your adress" << endl;
+      ip = ReadIP();
+      cout << "enter port" << endl;
+      port = ReadPositiveValue();
+      break;
+    }
+    cout << "ucncorrect answer, try again" << endl;
   }
-  qDebug() << configManag.GetValue("storagePath");
-  qDebug() << QHostAddress(adr) << endl;
-  return new FileTcpServer(parent, port, QHostAddress(adr), configManag.GetValue("storagePath"));
+  server = new FileTcpServer(&app, port, QHostAddress(ip), configManag.GetValue("storagePath"));
+
+  return app.exec();
 }
 
+
+
+int ReadPositiveValue()
+{
+  QString val;
+  while (true)
+  {
+    cin >> val;
+    if (val.toInt() <= 0)
+    {
+      cout << "value have to be positive" << endl;
+    }
+    else
+    {
+      break;
+    }
+  }
+  return val.toInt();
+}
+
+
+
+QString ReadIP()
+{
+  QString ip;
+  QStringList list;
+  bool ok;
+
+  while (true)
+  {
+    cin >> ip;
+    list = ip.split(".");
+    if (list.size() != 4)
+    {
+      cout << "uncorrect ip" << endl;
+      continue;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+      list[i].toUInt(&ok);
+      if (!ok)
+      {
+        cout << "uncorrect ip" << endl;
+        continue;
+      }
+    }
+    if (ok)
+    {
+      break;
+    }
+  }
+
+  return ip;
+}

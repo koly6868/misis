@@ -16,7 +16,7 @@ ClientController::ClientController(Client* cl, QString filesPaht, uint block_siz
 
 void ClientController::SendMessage(QByteArray message)
 {
-  client->sendMessage(message);
+  client->SendMessage(message);
 }
 
 
@@ -30,7 +30,7 @@ ClientController::~ClientController()
 
 QString ClientController::GetListOfFiles()
 {
-  return fs_->ShowFiles().join(',');
+  return fs_->ShowFiles().join('\n');
 }
 
 
@@ -71,31 +71,7 @@ void ClientController::onResvieMessage(QByteArray data)
     }
     break;
   case DOWNLOAD_FILE:
-    if (message_part_ == 0)
-    {
-      client->part_file_size = settings["countBlocks"].toInt();
-      message_part_++;
-
-      QString name = settings["name"].toString();
-      QString newName = name;
-      int number = 0;
-      while (fs_->ShowFiles().contains(newName))
-      {
-        number++;
-        newName = name;
-        newName.replace(QRegExp("\\."), '(' + QString().setNum(number) + ").");
-      }
-      fs_->OpenFile(newName, QIODevice::WriteOnly);
-    }
-    else
-    {
-      fs_->WriteAllToFile(data);
-      if (message_part_ == client->part_file_size)
-      {
-        fs_->Close();
-        message_part_ = 0;
-      }
-    }
+    onDownloadFile(settings,data);
     break;
   default:
     break;
@@ -126,10 +102,10 @@ void ClientController::UploadFileReq(QString fileName)
   settings.insert("command", UPLOAD_FILE);
   settings.insert("countBlocks", countBlocks + 1);
 
-  client->sendMessage(QJsonDocument(settings).toBinaryData());
+  client->SendMessage(QJsonDocument(settings).toBinaryData());
   for (int i = 0; i < countBlocks; i++)
   {
-    client->sendMessage(fs_->ReadPartOfFile(block_size_));
+    client->SendMessage(fs_->ReadPartOfFile(block_size_));
   }
   fs_->Close();
 }
@@ -143,16 +119,46 @@ void ClientController::DownloadFileReq(QString fileName)
   settings.insert("name", fileName);
   settings.insert("command", DOWNLOAD_FILE);
 
-  client->sendMessage(QJsonDocument(settings).toBinaryData());
+  client->SendMessage(QJsonDocument(settings).toBinaryData());
+}
+
+bool ClientController::IsConected()
+{
+  return client->IsConected();
 }
 
 
 
 void ClientController::onGetListOfFiles(QString list)
 {
-  cout << list;
+  cout << list << endl;
 }
 
-void ClientController::onDownloadFile(QJsonDocument info, QByteArray data)
+void ClientController::onDownloadFile(QJsonObject info, QByteArray data)
 {
+  if (message_part_ == 0)
+  {
+    client->part_file_size = info["countBlocks"].toInt();
+    message_part_++;
+
+    QString name = info["name"].toString();
+    QString newName = name;
+    int number = 0;
+    while (fs_->ShowFiles().contains(newName))
+    {
+      number++;
+      newName = name;
+      newName.replace(QRegExp("\\."), '(' + QString().setNum(number) + ").");
+    }
+    fs_->OpenFile(newName, QIODevice::WriteOnly);
+  }
+  else
+  {
+    fs_->WriteAllToFile(data);
+    if (message_part_ == client->part_file_size)
+    {
+      fs_->Close();
+      message_part_ = 0;
+    }
+  }
 }

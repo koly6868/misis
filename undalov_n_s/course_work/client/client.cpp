@@ -10,7 +10,6 @@ Client::Client(QObject *parent, quint16 port)
   socket_->bind(QHostAddress::LocalHost, port);
   connect(socket_, SIGNAL(onConnectionError()), this, SLOT(onConnectionError()));
   connect(socket_, SIGNAL(readyRead()), this, SLOT(onReciveBytes()));
-  qDebug() << block_size_;
 };
 
 
@@ -32,7 +31,6 @@ Client::Client(QObject* parent, quint16 port, QHostAddress adr)
   socket_->bind(adr, port);
   connect(socket_, SIGNAL(onConnectionError()), this, SLOT(onConnectionError()));
   connect(socket_, SIGNAL(readyRead()), this, SLOT(onReciveBytes()));
-  qDebug() << block_size_;
 }
 
 
@@ -43,7 +41,7 @@ Client::~Client()
 
 
 
-void Client::sendMessage(QByteArray message)
+void Client::SendMessage(QByteArray message)
 {
   QByteArray block;
   QDataStream out(&block, QIODevice::WriteOnly);
@@ -53,7 +51,6 @@ void Client::sendMessage(QByteArray message)
   out << static_cast<quint32>(block.size() - sizeof(quint32));
 
   socket_->write(block);
-  qDebug() << "bytes was written" << block.size() << endl;
 }
 
 
@@ -92,7 +89,6 @@ void Client::onReciveBytes()
       return;
     }
     in >> block_size_;
-    qDebug() << "block size: " << block_size_ << endl;
   }
   if (socket_->bytesAvailable() >= block_size_)
   {
@@ -102,6 +98,11 @@ void Client::onReciveBytes()
     block_size_ = 0;
   }
   if (socket_->bytesAvailable() > 0) onReciveBytes();
+}
+
+bool Client::IsConected()
+{
+  return socket_->state() == QTcpSocket::ConnectedState;
 }
 
 

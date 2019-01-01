@@ -22,12 +22,13 @@ public slots:
   void GetListOfFilesReq();
   void UploadFileReq(QString fileName);
   void DownloadFileReq(QString fileName);
+  bool IsConected();
 
 signals:
   void Reading();
 
 private:
-  void onDownloadFile(QJsonDocument info, QByteArray data);
+  void onDownloadFile(QJsonObject info, QByteArray data);
   void onGetListOfFiles(QString list);
   Client* client{nullptr};
   FileSysteam* fs_{nullptr};

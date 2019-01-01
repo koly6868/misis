@@ -1,0 +1,6 @@
+downdload - download file
+upload - upload file
+help - call this 
+files - files on the server
+storage - files on this machine
+exit - shut down this programm

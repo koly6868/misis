@@ -14,12 +14,13 @@ public:
   Client(QObject *parent, QTcpSocket* socket);
   Client(QObject *parent, quint16 port, QHostAddress adr);
   ~Client();
-  bool ConnectToHost(QHostAddress adr, quint16 port);
-  void sendMessage(QByteArray str);
 
   public slots:
+  bool ConnectToHost(QHostAddress adr, quint16 port);
+  void SendMessage(QByteArray str);
   void onConnectionError();
   void onReciveBytes();
+  bool IsConected();
 
 signals:
   void whenRecivedBytes(QByteArray str);

@@ -16,7 +16,6 @@ public:
   void Close();
 
 private:
-  QDir dir_{ ".\\" };
   QString path_{".\\"};
   QFile* file{ nullptr };
 };

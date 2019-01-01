@@ -26,3 +26,18 @@ QString ConfigurationManager::GetValue(QString key) const {
     return config[key].toString();
 }
 
+bool ConfigurationManager::IsValid() const
+{
+  QFile f(path_);
+  if (!f.open(QIODevice::ReadOnly))
+  {
+    return false;
+  }
+  QJsonObject config = QJsonDocument::fromJson(f.readAll()).object().take(schema_).toObject();
+  if (config.isEmpty())
+  {
+    return false;
+  }
+  return true;
+}
+

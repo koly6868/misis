@@ -43,8 +43,8 @@ void FileTcpServer::slotNewConnection()
   qDebug() << "conected" << endl;
   QJsonObject o;
   o.insert("command", INFO);
-  client->sendMessage(QJsonDocument(o).toBinaryData());
-  client->sendMessage("conected");
+  client->SendMessage(QJsonDocument(o).toBinaryData());
+  client->SendMessage("conected");
 
   connect(client, SIGNAL(whenRecivedBytes(QByteArray)), this, SLOT(slotServerRead(QByteArray)));
   //connect(mTcpSocket, &QTcpSocket::disconnected, this, &FileTcpServer::slotClientDisconnected);
@@ -66,8 +66,8 @@ void FileTcpServer::slotServerRead(QByteArray str)
   switch (client->comadnd_)
   {
   case GET_LIST_OF_FILES:
-    client->sendMessage(QJsonDocument(settings).toBinaryData());
-    client->sendMessage(fs_->ShowFiles().join(',').toUtf8());
+    client->SendMessage(QJsonDocument(settings).toBinaryData());
+    client->SendMessage(fs_->ShowFiles().join('\n').toUtf8());
     client->message_part = 0;
     break;
   case UPLOAD_FILE:
@@ -102,17 +102,17 @@ void FileTcpServer::slotServerRead(QByteArray str)
     if (!fs_->OpenFile(settings["name"].toString()))
     {
        settings.insert("status","error");
-       client->sendMessage(QJsonDocument(settings).toBinaryData());
+       client->SendMessage(QJsonDocument(settings).toBinaryData());
     }
     else
     {
       qint64 countBlocks = (fs_->FileSize() % client->part_file_size) == 0 ? fs_->FileSize() / client->part_file_size : fs_->FileSize() / client->part_file_size + 1;
       settings.insert("status","ok");
       settings.insert("countBlocks", countBlocks);
-      client->sendMessage(QJsonDocument(settings).toBinaryData());
+      client->SendMessage(QJsonDocument(settings).toBinaryData());
       for (int i = 0; i < countBlocks; i++)
       {
-        client->sendMessage(fs_->ReadPartOfFile(client->part_file_size));
+        client->SendMessage(fs_->ReadPartOfFile(client->part_file_size));
       }
       client->message_part = 0;
     }

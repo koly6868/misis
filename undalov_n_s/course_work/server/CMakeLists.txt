@@ -16,5 +16,5 @@ set(server_SRCS
 
 add_executable(server ${server_SRCS})
 
-target_link_libraries(server Qt5::Widgets)
+target_link_libraries(server Qt5::Core)
 target_link_libraries(server Qt5::Network)

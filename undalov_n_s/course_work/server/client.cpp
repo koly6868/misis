@@ -35,7 +35,7 @@ Client::~Client()
 
 
 
-void Client::sendMessage(QByteArray message)
+void Client::SendMessage(QByteArray message)
 {
   QByteArray block;
   QDataStream out(&block, QIODevice::WriteOnly);

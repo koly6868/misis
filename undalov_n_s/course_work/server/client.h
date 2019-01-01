@@ -14,7 +14,7 @@ public:
   Client(QObject *parent, QTcpSocket* socket);
   ~Client();
   bool ConnectToHost(QHostAddress adr, quint16 port);
-  void sendMessage(QByteArray str);
+  void SendMessage(QByteArray str);
 
   public slots:
   void onConnectionError();

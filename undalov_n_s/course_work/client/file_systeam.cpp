@@ -1,7 +1,6 @@
 #include "file_systeam.h"
 
 FileSysteam::FileSysteam(const QString& path)
-  : dir_(path)
 {
   path_ = path;
 }
@@ -10,7 +9,7 @@ FileSysteam::FileSysteam(const QString& path)
 
 QStringList FileSysteam::ShowFiles() const
 {
-  return dir_.entryList();
+  return QDir(path_).entryList();
 }
 
 

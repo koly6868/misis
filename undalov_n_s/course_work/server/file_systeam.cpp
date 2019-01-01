@@ -9,8 +9,8 @@ FileSysteam::FileSysteam(const QString& path)
 
 
 QStringList FileSysteam::ShowFiles() const
-{
-  return dir_.entryList();
+{ 
+  return QDir(path_).entryList();
 }
 
 

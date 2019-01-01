@@ -16,6 +16,5 @@ set(client_SRCS
 	interface.cpp)
 
 add_executable(client ${client_SRCS})
-target_link_libraries(client Qt5::Widgets)
+target_link_libraries(client Qt5::Core)
 target_link_libraries(client Qt5::Network)
-include_directories(/dll)
