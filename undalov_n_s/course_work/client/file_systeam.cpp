@@ -9,7 +9,10 @@ FileSysteam::FileSysteam(const QString& path)
 
 QStringList FileSysteam::ShowFiles() const
 {
-  return QDir(path_).entryList();
+  QStringList resp = QDir(path_).entryList();
+  resp.removeOne(".");
+  resp.removeOne("..");
+  return resp;
 }
 
 

@@ -8,7 +8,6 @@
 #include "client_controller.h"
 #include "interface.h"
 
-Client* Configure(QObject* parent, const ConfigurationManager& confManag, char tun);
 void InterfaceThread(ClientController* controller);
 QMap<QString, int> ConfigureCommandsDictionary();
 int ReadPositiveValue();
@@ -27,13 +26,13 @@ int main(int argc, char *argv[])
   Client* client;
   ClientController* cl_cont;
   QString input;
-
   cout << "use default settings? yes, no" << endl;
   while (true)
   {
     cin >> input;
     if (input == "yes")
     {
+      cout << "configs: " <<  confManag.ConfigList() << endl;
       QString config_name;
       cout << "Enter name of configuration" << endl;
       while (true)
@@ -65,6 +64,25 @@ int main(int argc, char *argv[])
       server_ip = ReadIP();
       cout << "enter port" << endl;
       server_port = ReadPositiveValue();
+
+      QString answ;
+      cout << "save settings? yes, no" << endl;
+      while (true)
+      {
+      cin >> answ;
+        if (answ == "yes")
+        {
+          cout << "enter name of config"<<endl;
+          cin >> answ;
+          confManag.SaveConfig(answ, ip, port, server_ip, server_port);
+          break;
+        }
+        if (answ == "no")
+        {
+          break;
+        }
+        cout << "uncorrect answer" << endl;
+      }
       break;
     }
     cout << "ucncorrect answer, try again" << endl;
@@ -80,13 +98,14 @@ int main(int argc, char *argv[])
 
 void InterfaceThread(ClientController* controller)
 {
+  bool isWorking = true;
   QString inp;
   QString fileName;
   Interface facade(controller);
   QMap<QString, int> command = ConfigureCommandsDictionary();
   QFile f(".\\info\\commands.txt");
 
-  while (inp != "exit")
+  while (isWorking)
   {
     inp = "";
     cin >> inp;
@@ -102,12 +121,12 @@ void InterfaceThread(ClientController* controller)
       facade.DownloadFileReq(fileName);
       break;
     case 2:
-      cout << "Enter a file name" << endl;
+      cout << "Enter a name of file" << endl;
       cin >> fileName;
       facade.UploadFileReq(fileName);
       break;
     case 3:
-      cout << controller->GetListOfFiles() << endl;
+      cout << controller->GetListOfFiles() << endl << endl;
       break;
     case 4:
       if (f.open(QIODevice::ReadOnly))
@@ -134,6 +153,9 @@ void InterfaceThread(ClientController* controller)
     case 6:
       facade.GetListOfFilesReq();
       break;
+    case 7:
+      isWorking = false;
+      break;
     default:
       cout << "unknown command" << endl;
       break;
@@ -146,12 +168,13 @@ void InterfaceThread(ClientController* controller)
 QMap<QString, int> ConfigureCommandsDictionary()
 {
   QMap<QString, int> dict;
-  dict.insert("files", 6);
   dict.insert("download", 1);
   dict.insert("upload", 2);
   dict.insert("storage", 3);
   dict.insert("help", 4);
   dict.insert("state", 5);
+  dict.insert("files", 6);
+  dict.insert("exit", 7);
   return dict;
 }
 

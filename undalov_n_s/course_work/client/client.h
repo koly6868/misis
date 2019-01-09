@@ -24,9 +24,15 @@ public:
 
 signals:
   void whenRecivedBytes(QByteArray str);
+  void disconnected();
 public:
   int message_part{ 0 };
   uint part_file_size{ 4096 };
+  FileSysteam* fs_{nullptr};
+ 
+ private:
+  void onDisonected();
+
 private:
   quint32 block_size_{ 0 };
   QTcpSocket* socket_{ nullptr };

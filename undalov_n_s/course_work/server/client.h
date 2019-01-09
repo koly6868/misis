@@ -16,15 +16,18 @@ public:
   bool ConnectToHost(QHostAddress adr, quint16 port);
   void SendMessage(QByteArray str);
 
-  public slots:
+public slots:
   void onConnectionError();
   void onReciveBytes();
+  void onDisonected();
 
 signals:
   void whenRecivedBytes(QByteArray str);
+  void disconnected();
+
 public:
-  int cont_blocks{1};
-  int message_part{0};
+  int cont_blocks{ 1 };
+  int message_part{ 0 };
   command comadnd_;
   uint part_file_size{ 4096 };
 

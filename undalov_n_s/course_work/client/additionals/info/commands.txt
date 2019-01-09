@@ -3,4 +3,5 @@ upload - upload file
 help - call this 
 files - files on the server
 storage - files on this machine
+state - check state of connection
 exit - shut down this programm

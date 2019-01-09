@@ -30,6 +30,7 @@ signals:
 private:
   void onDownloadFile(QJsonObject info, QByteArray data);
   void onGetListOfFiles(QString list);
+  void onUploadFile(QJsonObject info);
   Client* client{nullptr};
   FileSysteam* fs_{nullptr};
 

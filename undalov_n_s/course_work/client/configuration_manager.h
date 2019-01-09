@@ -8,6 +8,8 @@ public:
     ConfigurationManager(QString schema = "default", QString path = "config.json");
     QString GetValue(QString key) const;
     bool IsValid() const;
+    void SaveConfig(QString name, QString ip, quint16 port, QString server_ip, quint16 server_port);
+    QString ConfigList();
 private:
     QString path_{"config.json"};
     QString schema_{"default"};

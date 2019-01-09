@@ -1,0 +1,12 @@
+{
+    "default": {
+        "ip": "127.0.0.1",
+        "port": "6000",
+        "storagePath": ".\\files"
+    },
+    "test": {
+        "ip": "127.0.0.1",
+        "port": "7000",
+        "storagePath": ".\\files"
+    }
+}

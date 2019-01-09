@@ -41,3 +41,41 @@ bool ConfigurationManager::IsValid() const
   return true;
 }
 
+
+
+void ConfigurationManager::SaveConfig(QString name, QString ip, quint16 port, QString server_ip, quint16 server_port)
+{
+  QFile f(path_);
+  if (!f.open(QIODevice::ReadOnly))
+  {
+    throw std::exception("can not open configuration file");
+  }
+  QJsonObject config = QJsonDocument::fromJson(f.readAll()).object();
+  if (config.isEmpty())
+  {
+    throw std::exception("configuration is empty");
+  }
+  f.close();
+  QJsonObject body_config;
+  body_config.insert("ip",ip);
+  body_config.insert("port", QString::number(port));
+  body_config.insert("ipServer", server_ip);
+  body_config.insert("portServer", QString::number(server_port));
+  config.insert(name,body_config);
+  f.open(QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
+  f.write(QJsonDocument(config).toJson());
+}
+
+
+
+QString ConfigurationManager::ConfigList()
+{
+  QFile f(path_);
+  if (!f.open(QIODevice::ReadOnly))
+  {
+    throw std::exception("can not open configuration file");
+  }
+  QJsonObject config = QJsonDocument::fromJson(f.readAll()).object();
+  return config.keys().join(", ");
+}
+

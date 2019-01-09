@@ -12,6 +12,8 @@ set(server_SRCS
     file_systeam.h
     file_systeam.cpp
     enums.h
+    session.h
+    session.cpp
 )
 
 add_executable(server ${server_SRCS})

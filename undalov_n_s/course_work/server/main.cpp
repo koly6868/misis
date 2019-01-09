@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     cin >> input;
     if (input == "yes")
     {
+      cout << "configs: " << configManag.ConfigList() << endl;
       QString config_name;
       cout << "Enter name of configuration" << endl;
       while (true)
@@ -52,11 +53,31 @@ int main(int argc, char *argv[])
       ip = ReadIP();
       cout << "enter port" << endl;
       port = ReadPositiveValue();
+
+      QString answ;
+      cout << "save settings? yes, no" << endl;
+      while (true)
+      {
+        cin >> answ;
+        if (answ == "yes")
+        {
+          cout << "enter name of config" << endl;
+          cin >> answ;
+          configManag.SaveConfig(answ, ip, port);
+          break;
+        }
+        if (answ == "no")
+        {
+          break;
+        }
+        cout << "uncorrect answer" << endl;
+      }
       break;
     }
     cout << "ucncorrect answer, try again" << endl;
   }
   server = new FileTcpServer(&app, port, QHostAddress(ip), configManag.GetValue("storagePath"));
+
 
   return app.exec();
 }

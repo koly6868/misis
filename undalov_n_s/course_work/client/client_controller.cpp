@@ -45,38 +45,47 @@ void ClientController::onResvieMessage(QByteArray data)
     settings = QJsonDocument::fromBinaryData(data).object();
     command_ = static_cast<command>(settings["command"].toInt());
   }
-
-  switch (command_)
+  if ((settings["status"].toString() == "error") && (message_part_ == 0))
   {
-  case GET_LIST_OF_FILES:
-    if (message_part_ == 0)
-    {
-      message_part_++;
-    }
-    else
-    {
-      onGetListOfFiles(QString(data));
-      message_part_ = 0;
-    }
-    break;
-  case INFO:
-    if (message_part_ == 0)
-    {
-      message_part_++;
-    }
-    else
-    {
-      cout << QString(data) << endl;
-      message_part_ = 0;
-    }
-    break;
-  case DOWNLOAD_FILE:
-    onDownloadFile(settings,data);
-    break;
-  default:
-    break;
+    cout << "error in request" << endl;
   }
-
+  else
+  {
+    switch (command_)
+    {
+    case GET_LIST_OF_FILES:
+      if (message_part_ == 0)
+      {
+        message_part_++;
+      }
+      else
+      {
+        onGetListOfFiles(QString(data));
+        message_part_ = 0;
+      }
+      break;
+    case INFO:
+      if (message_part_ == 0)
+      {
+        message_part_++;
+      }
+      else
+      {
+        cout << QString(data) << endl;
+        message_part_ = 0;
+      }
+      break;
+    case DOWNLOAD_FILE:
+      onDownloadFile(settings, data);
+      break;
+    case UPLOAD_FILE:
+      onUploadFile(settings);
+      break;
+    default:
+      message_part_ = 0;
+      break;
+    }
+  }
 }
 
 
@@ -131,8 +140,17 @@ bool ClientController::IsConected()
 
 void ClientController::onGetListOfFiles(QString list)
 {
-  cout << list << endl;
+  cout << list << endl << endl;
 }
+
+
+
+void ClientController::onUploadFile(QJsonObject info)
+{
+  cout << (info["status"].toString() == "ok" ? "uploaded" : "error") << endl;
+}
+
+
 
 void ClientController::onDownloadFile(QJsonObject info, QByteArray data)
 {
@@ -158,6 +176,7 @@ void ClientController::onDownloadFile(QJsonObject info, QByteArray data)
     if (message_part_ == client->part_file_size)
     {
       fs_->Close();
+      cout << "downloaded" << endl;
       message_part_ = 0;
     }
   }

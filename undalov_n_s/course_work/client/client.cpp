@@ -105,6 +105,11 @@ bool Client::IsConected()
   return socket_->state() == QTcpSocket::ConnectedState;
 }
 
+void Client::onDisonected()
+{
+  emit disconnected();
+}
+
 
 
 
