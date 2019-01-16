@@ -3,10 +3,10 @@ set(server_SRCS
     main.cpp
     server.cpp
     server.h
-    client.h
-    client.cpp
-    configuration_manager.cpp
-    configuration_manager.h
+    client_server.h
+    client_server.cpp
+    configuration_manager_server.cpp
+    configuration_manager_server.h
 )
 
 add_executable(server ${server_SRCS})

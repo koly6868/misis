@@ -1,5 +1,5 @@
-#ifndef CLIENT_CONTROLLER_H
-#define CLIENT_CONTROLLER_H
+#ifndef CLIENT_CONTROLLER_SERVER_H
+#define CLIENT_CONTROLLER_SERVER_H
 
 
 #include <QtCore>
@@ -49,4 +49,4 @@ private:
   int block_size_{4096};
 };
 
-#endif // CLIENT_CONTROLLER_H
+#endif // CLIENT_CONTROLLER_SERVER_H

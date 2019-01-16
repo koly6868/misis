@@ -7,7 +7,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "../shared/file_systeam.h"
-#include "client.h"
+#include "client_server.h"
 #include "../shared/enums.h"
 
 

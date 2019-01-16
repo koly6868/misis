@@ -2,7 +2,7 @@
 #include "server.h"
 #include <QTcpSocket>
 #include <iostream>
-#include "configuration_manager.h"
+#include "configuration_manager_server.h"
 #include "../shared/console.h"
 
 QString ReadIP();

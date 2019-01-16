@@ -1,5 +1,5 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef CLIENT_SERVER_H
+#define CLIENT_SERVER_H
 
 #include <QTcpSocket>
 #include <QtCore>
@@ -45,4 +45,4 @@ private:
   quint32 block_size_{ 0 };
   QTcpSocket* socket_{ nullptr };
 };
-#endif // CLIENT_H
+#endif // CLIENT_SERVER_H

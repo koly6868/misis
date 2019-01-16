@@ -1,4 +1,4 @@
-#include "configuration_manager.h"
+#include "configuration_manager_server.h"
 
 ConfigurationManager::ConfigurationManager(QString nameOfConfig, QString path)
 {
