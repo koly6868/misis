@@ -11,7 +11,7 @@ public:
   PriorityQueue();
   PriorityQueue(int size);
   PriorityQueue(const PriorityQueue& q);
-  int pop();
+  void pop();
   void push(int val, int priority);
   int top() const;
   bool isEmpty() const;

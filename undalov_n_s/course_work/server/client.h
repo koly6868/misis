@@ -4,25 +4,25 @@
 #include <QTcpSocket>
 #include <QtCore>
 #include <QHostAddress>
-#include "enums.h"
+#include "../shared/enums.h"
 
 class Client : public QObject
 {
   Q_OBJECT
 public:
-  Client(QObject *parent = nullptr, quint16 port = 6001);
   Client(QObject *parent, QTcpSocket* socket);
   ~Client();
-  bool ConnectToHost(QHostAddress adr, quint16 port);
+//отправить данные
   void SendMessage(QByteArray str);
 
 public slots:
-  void onConnectionError();
   void onReciveBytes();
   void onDisonected();
 
 signals:
+//при получении данных
   void whenRecivedBytes(QByteArray str);
+//при отключении
   void disconnected();
 
 public:

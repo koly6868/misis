@@ -6,10 +6,9 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include "file_systeam.h"
+#include "../shared/file_systeam.h"
 #include "client.h"
-#include "enums.h"
-#include "session.h"
+#include "../shared/enums.h"
 
 
 
@@ -20,9 +19,13 @@ public:
   explicit FileTcpServer(QObject *parent = nullptr, quint16 port = 6000, QString storagePath = ".\\");
   FileTcpServer(QObject *parent, quint16 port, QHostAddress adr, QString storagePath);
   ~FileTcpServer();
+
   public slots:
+//подключение нового клиента
   void slotNewConnection();
+//чтение запросов от клиентов
   void slotServerRead(QByteArray str);
+//при отключении клиента
   void onClientDisconected();
 
 private:

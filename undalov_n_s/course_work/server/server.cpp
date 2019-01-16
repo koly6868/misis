@@ -40,7 +40,7 @@ void FileTcpServer::slotNewConnection()
   qDebug() << "conected" << endl;
   QJsonObject o;
   o.insert("command", INFO);
-  o.insert("status","ok");
+  o.insert("status", "ok");
   client->SendMessage(QJsonDocument(o).toBinaryData());
   client->SendMessage("conected");
 
@@ -72,13 +72,13 @@ void FileTcpServer::slotServerRead(QByteArray str)
     catch (std::exception e)
     {
       settings.insert("status", "error");
-      qDebug() << "files read exception" <<  e.what();
+      qDebug() << "files read exception" << e.what();
     }
     client->SendMessage(QJsonDocument(settings).toBinaryData());
     client->SendMessage(resp);
     client->message_part = 0;
-  }   
-    break;
+  }
+                          break;
   case UPLOAD_FILE:
     if (client->message_part == 0)
     {
@@ -99,16 +99,16 @@ void FileTcpServer::slotServerRead(QByteArray str)
     {
       fs_->WriteAllToFile(str);
       client->message_part++;
-      if (client->message_part == client->cont_blocks)
-      {
-        fs_->Close();
-        client->message_part = 0;
-        client->cont_blocks = 0;
-        QJsonObject resp;
-        resp.insert("status","ok");
-        resp.insert("command",UPLOAD_FILE);
-        client->SendMessage(QJsonDocument(resp).toBinaryData());
-      }
+    }
+    if (client->message_part == client->cont_blocks)
+    {
+      fs_->Close();
+      client->message_part = 0;
+      client->cont_blocks = 0;
+      QJsonObject resp;
+      resp.insert("status", "ok");
+      resp.insert("command", UPLOAD_FILE);
+      client->SendMessage(QJsonDocument(resp).toBinaryData());
     }
     break;
   case DOWNLOAD_FILE:
@@ -121,7 +121,7 @@ void FileTcpServer::slotServerRead(QByteArray str)
     {
       qint64 countBlocks = (fs_->FileSize() % client->part_file_size) == 0 ? fs_->FileSize() / client->part_file_size : fs_->FileSize() / client->part_file_size + 1;
       settings.insert("status", "ok");
-      settings.insert("countBlocks", countBlocks);
+      settings.insert("countBlocks", countBlocks + 1);
       client->SendMessage(QJsonDocument(settings).toBinaryData());
       for (int i = 0; i < countBlocks; i++)
       {

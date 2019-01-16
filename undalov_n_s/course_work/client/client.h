@@ -4,7 +4,7 @@
 #include <QTcpSocket>
 #include <QtCore>
 #include <QHostAddress>
-#include "file_systeam.h"
+#include "../shared//file_systeam.h"
 
 class Client : public QObject
 {
@@ -16,14 +16,21 @@ public:
   ~Client();
 
   public slots:
-  bool ConnectToHost(QHostAddress adr, quint16 port);
-  void SendMessage(QByteArray str);
-  void onConnectionError();
-  void onReciveBytes();
-  bool IsConected();
+  //подключение к серверу
+    bool ConnectToHost(QHostAddress adr, quint16 port);
+  //отправка данных
+    void SendMessage(QByteArray str);
+  //при ошибке подключения
+    void onConnectionError();
+  //обработка полученных данных
+    void onReciveBytes();
+  //проверка состояния соединения
+    bool IsConected();
 
 signals:
+//получение данных
   void whenRecivedBytes(QByteArray str);
+//отключение от сервера
   void disconnected();
 public:
   int message_part{ 0 };
@@ -31,6 +38,7 @@ public:
   FileSysteam* fs_{nullptr};
  
  private:
+ //действия при отключении
   void onDisonected();
 
 private:

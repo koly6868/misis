@@ -11,9 +11,11 @@ Q_OBJECT
 public:
   Interface(ClientController* cont);
   ~Interface();
-
+//запрос на список файла на сервере
   void GetListOfFilesReq();
+//запрос на загрузку файла на сервер
   void UploadFileReq(QString fileName);
+//запрос на скачивание файла с сервера
   void DownloadFileReq(QString fileName);
 public slots:
 

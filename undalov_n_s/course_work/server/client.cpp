@@ -2,18 +2,6 @@
 
 
 
-Client::Client(QObject *parent, quint16 port)
-  : QObject(parent)
-  , block_size_(0)
-{
-  socket_ = new QTcpSocket(this);
-  socket_->bind(QHostAddress::LocalHost, port);
-  connect(socket_, SIGNAL(onConnectionError()), this, SLOT(onConnectionError()));
-  connect(socket_, SIGNAL(readyRead()), this, SLOT(onReciveBytes()));
-  connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisonected);
-};
-
-
 
 Client::Client(QObject* parent, QTcpSocket* socket)
   : QObject(parent)
@@ -21,7 +9,6 @@ Client::Client(QObject* parent, QTcpSocket* socket)
 {
   socket_ = socket;
   qDebug() << socket_->state();
-  connect(socket_, SIGNAL(onConnectionError()), this, SLOT(onConnectionError()));
   connect(socket_, SIGNAL(readyRead()), this, SLOT(onReciveBytes()));
   connect(socket_, &QTcpSocket::disconnected, this, &Client::onDisonected);
 }
@@ -45,29 +32,6 @@ void Client::SendMessage(QByteArray message)
 
   socket_->write(block);
 };
-
-
-bool Client::ConnectToHost(QHostAddress adr, quint16 port)
-{
-  socket_->open(QIODevice::ReadWrite);
-  socket_->connectToHost(adr, port);
-  if (socket_->waitForConnected(3000))
-  {
-    qDebug() << "Ready to work";
-  }
-  else
-  {
-    qDebug() << "Not open";
-  }
-  return true;
-};
-
-
-
-void Client::onConnectionError()
-{
-  qDebug() << "not conected" << endl;
-}
 
 
 

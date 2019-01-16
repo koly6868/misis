@@ -3,9 +3,8 @@
 #include <QTcpSocket>
 #include <iostream>
 #include "configuration_manager.h"
-#include "console.h"
+#include "../shared/console.h"
 
-FileTcpServer* Configure(QObject* parent, const ConfigurationManager& configManag, char tun);
 QString ReadIP();
 int ReadPositiveValue();
 
@@ -64,7 +63,7 @@ int main(int argc, char *argv[])
           cout << "enter name of config" << endl;
           cin >> answ;
           configManag.SaveConfig(answ, ip, port);
-          break;
+            break;
         }
         if (answ == "no")
         {
@@ -89,10 +88,10 @@ int ReadPositiveValue()
   QString val;
   while (true)
   {
-    cin >> val;
+    std::cin >> val;
     if (val.toInt() <= 0)
     {
-      cout << "value have to be positive" << endl;
+      std::cout << "value have to be positive" << endl;
     }
     else
     {
@@ -112,11 +111,11 @@ QString ReadIP()
 
   while (true)
   {
-    cin >> ip;
+    std::cin >> ip;
     list = ip.split(".");
     if (list.size() != 4)
     {
-      cout << "uncorrect ip" << endl;
+      std::cout << "uncorrect ip" << endl;
       continue;
     }
     for (int i = 0; i < 4; i++)
@@ -124,7 +123,7 @@ QString ReadIP()
       list[i].toUInt(&ok);
       if (!ok)
       {
-        cout << "uncorrect ip" << endl;
+        std::cout << "uncorrect ip" << endl;
         continue;
       }
     }

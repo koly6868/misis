@@ -96,7 +96,7 @@ Complex& Complex::operator*=(const double rhs)
 
 Complex& Complex::operator/=(const double rhs)
 {
-  if (rhs == 0) throw std::invalid_argument("Div on 0");
+  if (abs(rhs - 0) < std::numeric_limits<double>::epsilon()) throw std::invalid_argument("Div on 0");
   re_ /= rhs;
   im_ /= rhs;
   return *this;
@@ -127,7 +127,8 @@ Complex Complex::operator*(const Complex & rhs)
 
 Complex Complex::operator/(const Complex & rhs)
 {
-  if ((rhs.im_ == 0) && (rhs.re_ == 0)) throw std::invalid_argument("Div on 0");
+  if ((abs(rhs.im_ - 0) < std::numeric_limits<double>::epsilon()) 
+    && (abs(rhs.re_ - 0) < std::numeric_limits<double>::epsilon())) throw std::invalid_argument("Div on 0");
   return Complex((re_*rhs.re_ + im_ * rhs.im_) / (rhs.re_*rhs.re_ + rhs.im_*rhs.im_),
     (rhs.re_ *im_ - re_ * rhs.im_) / (rhs.re_*rhs.re_ + rhs.im_*rhs.im_));
 }
@@ -158,7 +159,7 @@ Complex Complex::operator*(const double rhs)
 
 Complex Complex::operator/(const double rhs)
 {
-  if (rhs == 0) throw std::invalid_argument("Div on 0");
+  if (abs(rhs - 0) < std::numeric_limits<double>::epsilon()) throw std::invalid_argument("Div on 0");
   return Complex(re_ / rhs, im_ / rhs);
 }
 
@@ -176,7 +177,8 @@ Complex& Complex::operator*=(const Complex& rhs)
 
 Complex& Complex::operator/=(const Complex & rhs)
 {
-  if ((rhs.im_ == 0) && (rhs.re_ == 0)) throw std::invalid_argument("Div on 0");
+  if ((abs(rhs.im_ - 0) < std::numeric_limits<double>::epsilon())
+    && (abs(rhs.re_ - 0) < std::numeric_limits<double>::epsilon())) throw std::invalid_argument("Div on 0");
   double oldRe = re_;
   re_ = (re_*rhs.re_ + im_ * rhs.im_) / (rhs.re_*rhs.re_ + rhs.im_*rhs.im_);
   im_ = (rhs.re_ *im_ - oldRe * rhs.im_) / (rhs.re_*rhs.re_ + rhs.im_*rhs.im_);

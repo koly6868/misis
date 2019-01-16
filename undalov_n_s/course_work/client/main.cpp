@@ -2,9 +2,9 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <iostream>
-#include "console.h"
+#include "../shared/console.h"
 #include "configuration_manager.h"
-#include "enums.h"
+#include "../shared/enums.h"
 #include "client_controller.h"
 #include "interface.h"
 
@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
   while (true)
   {
     cin >> input;
+    // считывание настроек сети с конфига
     if (input == "yes")
     {
       cout << "configs: " <<  confManag.ConfigList() << endl;
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
       }
       break;
     }
+     // ввод настроек сети вручную
     if (input == "no")
     {
       cout << "enter your adress" << endl;
@@ -66,6 +68,7 @@ int main(int argc, char *argv[])
       server_port = ReadPositiveValue();
 
       QString answ;
+      // возможность сохранить настройки в конфиге
       cout << "save settings? yes, no" << endl;
       while (true)
       {
@@ -87,9 +90,12 @@ int main(int argc, char *argv[])
     }
     cout << "ucncorrect answer, try again" << endl;
   }
+  // настройка приложения
   client = new Client(&app, port, QHostAddress(ip));
+  //подключение к серверу
   client->ConnectToHost(QHostAddress(server_ip), server_port);
-  cl_cont = new ClientController(client);
+  cl_cont = new ClientController(&app, client);
+  //создание и отделение потока с обработкой ввода данных
   std::thread thr(InterfaceThread, cl_cont);
   thr.detach();
 
@@ -98,6 +104,7 @@ int main(int argc, char *argv[])
 
 void InterfaceThread(ClientController* controller)
 {
+using namespace std;
   bool isWorking = true;
   QString inp;
   QString fileName;
@@ -185,10 +192,10 @@ int ReadPositiveValue()
   QString val;
   while (true)
   {
-    cin >> val;
+    std::cin >> val;
     if (val.toInt() <= 0)
     {
-      cout << "value have to be positive" << endl;
+      std::cout << "value have to be positive" << endl;
     }
     else
     {
@@ -208,11 +215,11 @@ QString ReadIP()
 
   while (true)
   {
-    cin >> ip;
+    std::cin >> ip;
     list = ip.split(".");
     if (list.size() != 4)
     {
-      cout << "uncorrect ip" << endl;
+      std::cout << "uncorrect ip" << endl;
       continue;
     }
     for (int i = 0; i < 4; i++)
@@ -220,7 +227,7 @@ QString ReadIP()
       list[i].toUInt(&ok);
       if (!ok)
       {
-        cout << "uncorrect ip" << endl;
+        std::cout << "uncorrect ip" << endl;
         continue;
       }
     }

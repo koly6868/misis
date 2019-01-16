@@ -42,12 +42,12 @@ PriorityQueue::PriorityQueue(int size)
 
 
 
-int PriorityQueue::pop()
+void PriorityQueue::pop()
 {
-  if (isEmpty()) throw std::exception("empty");
-  int resp = data_[head_].data;
-  head_ = (head_ + 1) % size_;
-  return resp;
+  if (!isEmpty())
+  {
+    head_ = (head_ + 1) % size_;
+  }
 }
 
 

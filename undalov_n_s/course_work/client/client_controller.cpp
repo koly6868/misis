@@ -1,10 +1,10 @@
 #include "client_controller.h"
 
-ClientController::ClientController(Client* cl, QString filesPaht, uint block_size)
+ClientController::ClientController(QCoreApplication* parent, Client* cl, QString filesPaht, uint block_size) : QObject(parent)
 {
   if (block_size == 0)
   {
-    throw exception("uncorrect block size");
+    throw std::exception("uncorrect block size");
   }
   client = cl;
   block_size_ = block_size;
@@ -24,6 +24,7 @@ void ClientController::SendMessage(QByteArray message)
 ClientController::~ClientController()
 {
   delete client;
+  qobject_cast<QCoreApplication*>(parent())->exit();
 }
 
 
@@ -47,7 +48,7 @@ void ClientController::onResvieMessage(QByteArray data)
   }
   if ((settings["status"].toString() == "error") && (message_part_ == 0))
   {
-    cout << "error in request" << endl;
+    std::cout << "error in request" << endl;
   }
   else
   {
@@ -71,7 +72,7 @@ void ClientController::onResvieMessage(QByteArray data)
       }
       else
       {
-        cout << QString(data) << endl;
+        std::cout << QString(data) << endl;
         message_part_ = 0;
       }
       break;
@@ -103,8 +104,7 @@ void ClientController::GetListOfFilesReq()
 void ClientController::UploadFileReq(QString fileName)
 {
   if (!fs_->OpenFile(fileName)) qDebug() << "file not open" << endl;
-
-  qint64 countBlocks = (fs_->FileSize() % block_size_) == 0 ? fs_->FileSize() / block_size_ : fs_->FileSize() / block_size_ + 1;
+  qint64 countBlocks = countBlocks = (fs_->FileSize() % block_size_) == 0 ? fs_->FileSize() / block_size_ : fs_->FileSize() / block_size_ + 1;
   QJsonDocument doc;
   QJsonObject settings = doc.object();
   settings.insert("name", fileName);
@@ -140,14 +140,14 @@ bool ClientController::IsConected()
 
 void ClientController::onGetListOfFiles(QString list)
 {
-  cout << list << endl << endl;
+  std::cout << list << endl << endl;
 }
 
 
 
 void ClientController::onUploadFile(QJsonObject info)
 {
-  cout << (info["status"].toString() == "ok" ? "uploaded" : "error") << endl;
+  std::cout << (info["status"].toString() == "ok" ? "uploaded" : "error") << endl;
 }
 
 
@@ -173,11 +173,11 @@ void ClientController::onDownloadFile(QJsonObject info, QByteArray data)
   else
   {
     fs_->WriteAllToFile(data);
-    if (message_part_ == client->part_file_size)
-    {
-      fs_->Close();
-      cout << "downloaded" << endl;
-      message_part_ = 0;
-    }
+  }
+  if (message_part_ == client->part_file_size)
+  {
+    fs_->Close();
+    std::cout << "downloaded" << endl;
+    message_part_ = 0;
   }
 }

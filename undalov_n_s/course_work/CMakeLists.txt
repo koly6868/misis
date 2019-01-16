@@ -15,4 +15,6 @@ find_package(Qt5Network CONFIG REQUIRED)
 
 add_subdirectory(client)
 add_subdirectory(server)
+add_subdirectory(shared)
+
 

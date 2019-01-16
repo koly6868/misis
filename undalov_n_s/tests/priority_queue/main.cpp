@@ -32,7 +32,8 @@ void Test()
   cout << q1 << endl;
   
   cout << "pop()" << endl;
-  cout << q1.pop() << endl;
+  cout << q1.top() << endl;
+  q1.pop();
   cout << q1 << endl;
 
   cout << "isFull()" << endl;
@@ -77,15 +78,10 @@ void Test()
   }
 
   cout << "pop value from empty stack" << endl;
-  try
-  {
-    PriorityQueue().pop();
+    PriorityQueue q4;
+    q4.pop();
     cout << "error" << endl;
-  }
-  catch (exception e)
-  {
-    cout << e.what() << endl;
-  }
+    cout << q4;
 
   cout << "PriorityQueue(-1)" << endl;
   try
